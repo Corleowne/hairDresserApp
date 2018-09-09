@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:hairDresserApp"
+             x:Class="hairDresserApp.MainPage">
+
+	<StackLayout Orientation="Vertical" VerticalOptions="Fill">
+
+		<Entry x:Name="productionEntry"
+			   Keyboard="Numeric"
+			   Placeholder="Termelés"/>
+		<Entry x:Name="jattEntry"
+			   Placeholder="Jatt"
+			   Keyboard="Numeric"/>
+		<DatePicker x:Name="productionDatePicker"/>
+		<Button
+			Text="add"
+			Clicked="Button_Clicked"
+			/>
+	
+		<ListView x:Name="listView" RowHeight="25">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+							<StackLayout Orientation="Vertical">
+								<Label Text="{Binding Production}" FontSize="16" AbsoluteLayout.LayoutBounds="0.25, 0.25, 10, 1"/>
+							</StackLayout>
+						</StackLayout>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+		<Label Text="Kereset:"
+			   FontSize="18"/>
+		<Label x:Name="earnPreviousMonthLabel"
+			   FontSize="16"/>
+		<Label x:Name="earnInMonthLabel"
+			   FontSize="16"/>
+	</StackLayout>
+
+</ContentPage>
