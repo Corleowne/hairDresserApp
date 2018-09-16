@@ -13,13 +13,13 @@ namespace hairDresserApp.Models
 		public int year { get; set; }
 		public int month { get; set; }
 		public int day { get; set; }
-		public int money { get; set; }
+		public long money { get; set; }
 
-		public int jatt { get; set; }
-		public int lorealMoney { get; set; }
-		public int kerastaseMoney { get; set; }
+		public long jatt { get; set; }
+		public long lorealMoney { get; set; }
+		public long kerastaseMoney { get; set; }
 		public Production(){}
-		public Production(int year,int month,int day, int money, int jatt,int lorealMoney, int kerastaseMoney)
+		public Production(int year,int month,int day, long money, long jatt, long lorealMoney, long kerastaseMoney)
 		{
 			this.year = year;
 			this.month = month;

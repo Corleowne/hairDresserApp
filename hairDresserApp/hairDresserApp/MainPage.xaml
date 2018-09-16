@@ -2,20 +2,21 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:hairDresserApp"
+			 xmlns:models ="clr-namespace:hairDresserApp.Models"
              x:Class="hairDresserApp.MainPage">
 
 	<StackLayout Orientation="Vertical" VerticalOptions="Fill">
 
-		<Entry x:Name="productionEntry"
+		<models:FormattedNumberEntry x:Name="productionEntry"
 			   Keyboard="Numeric"
 			   Placeholder="Termelés"/>
-		<Entry x:Name="jattEntry"
+		<models:FormattedNumberEntry x:Name="jattEntry"
 			   Placeholder="Jatt"
 			   Keyboard="Numeric"/>
-		<Entry x:Name="lorealEntry"
+		<models:FormattedNumberEntry x:Name="lorealEntry"
 			   Placeholder="L'Oréal"
 			   Keyboard="Numeric"/>
-		<Entry x:Name="kerastaseEntry"
+		<models:FormattedNumberEntry x:Name="kerastaseEntry"
 			   Placeholder="Kérastase"
 			   Keyboard="Numeric"/>
 		<DatePicker x:Name="productionDatePicker"/>

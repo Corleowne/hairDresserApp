@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using hairDresserApp.Models;
 using SQLite;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace hairDresserApp
 {
@@ -18,54 +19,56 @@ namespace hairDresserApp
 			InitializeComponent();
 			elements = new ObservableCollection<ElementViewModell>();
 			//App.ProductionDatabase.delete();
+	
 			ListData();
 		}
+
 
 		private void Button_Clicked(object sender, EventArgs e)
 		{
 			Production prod = App.ProductionDatabase.GetProductionByDate(productionDatePicker.Date);
 			if (prod != null)
 			{
-				if (productionEntry.Text == null)
+				if (productionEntry.Text == ""  || productionEntry.Text == null)
 					productionEntry.Text = prod.money.ToString();
-				if (jattEntry.Text == null)
+				if (jattEntry.Text == "" || jattEntry.Text == null)
 					jattEntry.Text = prod.jatt.ToString();
-				if (lorealEntry.Text == null)
+				if (lorealEntry.Text == "" || lorealEntry.Text == null)
 					lorealEntry.Text = prod.lorealMoney.ToString();
-				if (kerastaseEntry.Text == null)
+				if (kerastaseEntry.Text == "" || kerastaseEntry.Text == null)
 					kerastaseEntry.Text = prod.kerastaseMoney.ToString();
 			}
 			else
 			{
-				if (productionEntry.Text == null)
-					productionEntry.Text = "0";
-				if (jattEntry.Text == null)
-					jattEntry.Text = "0";
-				if (lorealEntry.Text == null)
-					lorealEntry.Text = "0";
-				if (kerastaseEntry.Text == null)
-					kerastaseEntry.Text = "0";
+				if (productionEntry.Text == "" || productionEntry.Text == null)
+					productionEntry.Text = "";
+				if (jattEntry.Text == "" || jattEntry.Text == null)
+					jattEntry.Text = "";
+				if (lorealEntry.Text == "" || lorealEntry.Text == null)
+					lorealEntry.Text = "";
+				if (kerastaseEntry.Text == "" || kerastaseEntry.Text == null)
+					kerastaseEntry.Text = "";
 			}
 
 			Production production = new Production(productionDatePicker.Date.Year,productionDatePicker.Date.Month,
-				productionDatePicker.Date.Day, int.Parse(productionEntry.Text),
-				int.Parse(jattEntry.Text), int.Parse(lorealEntry.Text), int.Parse(kerastaseEntry.Text));
+				productionDatePicker.Date.Day, long.Parse(productionEntry.Text, System.Globalization.NumberStyles.Number),
+				long.Parse(jattEntry.Text, System.Globalization.NumberStyles.Number), long.Parse(lorealEntry.Text, System.Globalization.NumberStyles.Number), long.Parse(kerastaseEntry.Text, System.Globalization.NumberStyles.Number));
 			if (App.ProductionDatabase.GetProduction(production) != null)
 			{
 				production = App.ProductionDatabase.GetProduction(production);
-				production.money = int.Parse(productionEntry.Text);
-				production.jatt = int.Parse(jattEntry.Text);
-				production.lorealMoney = int.Parse(lorealEntry.Text);
-				production.kerastaseMoney = int.Parse(kerastaseEntry.Text);
+				production.money = long.Parse(productionEntry.Text, System.Globalization.NumberStyles.Number);
+				production.jatt = long.Parse(jattEntry.Text, System.Globalization.NumberStyles.Number);
+				production.lorealMoney = long.Parse(lorealEntry.Text, System.Globalization.NumberStyles.Number);
+				production.kerastaseMoney = long.Parse(kerastaseEntry.Text, System.Globalization.NumberStyles.Number);
 				App.ProductionDatabase.SaveProduction(production);
 			}
 			else App.ProductionDatabase.SaveProduction(production);
 
 			ListData();
-			productionEntry.Text = null;
-			jattEntry.Text = null;
-			lorealEntry.Text = null;
-			kerastaseEntry.Text = null;
+			productionEntry.Text = "";
+			jattEntry.Text = "";
+			lorealEntry.Text = "";
+			kerastaseEntry.Text = "";
 
 		}
 
