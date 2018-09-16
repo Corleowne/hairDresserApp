@@ -12,13 +12,19 @@
 		<Entry x:Name="jattEntry"
 			   Placeholder="Jatt"
 			   Keyboard="Numeric"/>
+		<Entry x:Name="lorealEntry"
+			   Placeholder="L'Oréal"
+			   Keyboard="Numeric"/>
+		<Entry x:Name="kerastaseEntry"
+			   Placeholder="Kérastase"
+			   Keyboard="Numeric"/>
 		<DatePicker x:Name="productionDatePicker"/>
 		<Button
 			Text="add"
 			Clicked="Button_Clicked"
 			/>
 	
-		<ListView x:Name="listView" RowHeight="25">
+		<ListView x:Name="listView" RowHeight="60">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell>

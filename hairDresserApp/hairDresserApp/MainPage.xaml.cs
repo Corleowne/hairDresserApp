@@ -17,22 +17,46 @@ namespace hairDresserApp
 		{
 			InitializeComponent();
 			elements = new ObservableCollection<ElementViewModell>();
+			//App.ProductionDatabase.delete();
 			ListData();
 		}
 
 		private void Button_Clicked(object sender, EventArgs e)
 		{
-			if (productionEntry.Text == null)
-				productionEntry.Text = "0";
-			if (jattEntry.Text == null)
-				jattEntry.Text = "0";
+			Production prod = App.ProductionDatabase.GetProductionByDate(productionDatePicker.Date);
+			if (prod != null)
+			{
+				if (productionEntry.Text == null)
+					productionEntry.Text = prod.money.ToString();
+				if (jattEntry.Text == null)
+					jattEntry.Text = prod.jatt.ToString();
+				if (lorealEntry.Text == null)
+					lorealEntry.Text = prod.lorealMoney.ToString();
+				if (kerastaseEntry.Text == null)
+					kerastaseEntry.Text = prod.kerastaseMoney.ToString();
+			}
+			else
+			{
+				if (productionEntry.Text == null)
+					productionEntry.Text = "0";
+				if (jattEntry.Text == null)
+					jattEntry.Text = "0";
+				if (lorealEntry.Text == null)
+					lorealEntry.Text = "0";
+				if (kerastaseEntry.Text == null)
+					kerastaseEntry.Text = "0";
+			}
+
 			Production production = new Production(productionDatePicker.Date.Year,productionDatePicker.Date.Month,
-				productionDatePicker.Date.Day, int.Parse(productionEntry.Text), int.Parse(jattEntry.Text));
+				productionDatePicker.Date.Day, int.Parse(productionEntry.Text),
+				int.Parse(jattEntry.Text), int.Parse(lorealEntry.Text), int.Parse(kerastaseEntry.Text));
 			if (App.ProductionDatabase.GetProduction(production) != null)
 			{
 				production = App.ProductionDatabase.GetProduction(production);
 				production.money = int.Parse(productionEntry.Text);
 				production.jatt = int.Parse(jattEntry.Text);
+				production.lorealMoney = int.Parse(lorealEntry.Text);
+				production.kerastaseMoney = int.Parse(kerastaseEntry.Text);
 				App.ProductionDatabase.SaveProduction(production);
 			}
 			else App.ProductionDatabase.SaveProduction(production);
@@ -40,6 +64,8 @@ namespace hairDresserApp
 			ListData();
 			productionEntry.Text = null;
 			jattEntry.Text = null;
+			lorealEntry.Text = null;
+			kerastaseEntry.Text = null;
 
 		}
 
@@ -56,7 +82,8 @@ namespace hairDresserApp
 				{
 					elements.Add(new ElementViewModell
 					{
-						Production = String.Format("Dátum: {0}:{1}:{2}, Termelés: {3}Ft, jatt: {4}Ft", p.year, p.month, p.day, p.money.ToString("N0"), p.jatt.ToString("N0"))
+						Production = String.Format("Dátum: {0}:{1}:{2}, Termelés: {3}Ft\n jatt: {4}Ft, L'oréal: {5}Ft\n Kérastase: {6}Ft",
+						p.year, p.month, p.day, p.money.ToString("N0"), p.jatt.ToString("N0"),p.lorealMoney.ToString("N0"), p.kerastaseMoney.ToString("N0"))
 					});
 				}
 				listView.ItemsSource = elements;
@@ -71,56 +98,67 @@ namespace hairDresserApp
 			double jatt = 0;
 			double previousMonthSalaray = 0;
 			double previousMonthJatt = 0;
+			double loreal = 0;
+			double previousMonthLoreal = 0;
+			double kerastase = 0;
+			double previousMonthKerastase = 0;
 			foreach (Production p in productionPreviousMonth)
 			{
 				previousMonthSalaray += p.money;
 				previousMonthJatt += p.jatt;
+				previousMonthLoreal += p.lorealMoney;
+				previousMonthKerastase += p.kerastaseMoney;
 			}
 			foreach (Production p in productionInMonth)
 			{
 				salary += p.money;
 				jatt += p.jatt;
+				loreal += p.lorealMoney;
+				kerastase += p.kerastaseMoney;
 			}
 			salary *= 0.27;
+			loreal *= 0.05;
+			kerastase *= 0.1;
+
 			Month month = (Month)DateTime.Today.Month;
 
 			switch (month)
 			{
 				case Month.January:
-					SetLabel("December", "Január", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("December", "Január", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.February:
-					SetLabel("Január", "Február", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("Január", "Február", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.March:
-					SetLabel("Február", "Március", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("Február", "Március", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.April:
-					SetLabel("Március", "Április", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("Március", "Április", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.May:
-					SetLabel("Április", "Május", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("Április", "Május", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.June:
-					SetLabel("Május", "Június", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("Május", "Június", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.July:
-					SetLabel("Június", "Július", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("Június", "Július", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.August:
-					SetLabel("Július", "Augusztus", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("Július", "Augusztus", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.September:
-					SetLabel("Augusztus", "Szeptember", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("Augusztus", "Szeptember", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.October:
-					SetLabel("Szeptember", "Oktober", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("Szeptember", "Oktober", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.November:
-					SetLabel("Oktober", "November", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("Oktober", "November", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				case Month.December:
-					SetLabel("November", "December", previousMonthSalaray, salary, previousMonthJatt, jatt);
+					SetLabel("November", "December", previousMonthSalaray, salary, previousMonthJatt, jatt, previousMonthLoreal, loreal, previousMonthKerastase, kerastase);
 					break;
 				default:
 					break;
@@ -129,13 +167,15 @@ namespace hairDresserApp
 
 
 		}
-		void SetLabel(string prevoiusMonth, string month, double previousMonthSalaray, double salary, double previousMonthJatt, double jatt)
+		void SetLabel(string prevoiusMonth, string month, double previousMonthSalaray, double salary, double previousMonthJatt, double jatt,
+			double previousMonthLoreal, double loreal, double previousMonthKerastase, double kerastase)
 		{
-			earnPreviousMonthLabel.Text = String.Format("{0}: {1}Ft + {2}Ft = {3}Ft",
-				prevoiusMonth ,previousMonthSalaray.ToString("N0"), previousMonthJatt.ToString("N0"), (previousMonthSalaray + previousMonthJatt).ToString("N0"));
+			earnPreviousMonthLabel.Text = String.Format("{0}: {1}Ft + {2}Ft + {3} + {4}Ft = {5}Ft",
+				prevoiusMonth ,previousMonthSalaray.ToString("N0"), previousMonthJatt.ToString("N0"),previousMonthLoreal.ToString("N0"), previousMonthKerastase.ToString("N0"),
+				(previousMonthSalaray + previousMonthJatt + previousMonthLoreal + previousMonthKerastase).ToString("N0"));
 
-			earnInMonthLabel.Text = String.Format("{0}: {1}Ft + {2}Ft = {3}Ft",
-				month ,salary.ToString("N0"), jatt.ToString("N0"), (salary + jatt).ToString("N0"));
+			earnInMonthLabel.Text = String.Format("{0}: {1}Ft + {2}Ft + {3} + {4}Ft = {5}Ft",
+				month ,salary.ToString("N0"), jatt.ToString("N0"),loreal.ToString("N0"),kerastase.ToString("N0"), (salary + jatt + loreal + kerastase).ToString("N0"));
 		}
 		public enum Month
 		{
