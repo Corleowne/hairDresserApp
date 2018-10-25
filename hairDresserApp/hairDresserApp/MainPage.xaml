@@ -38,7 +38,21 @@
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
-		<Label Text="Kereset:"
+
+        <StackLayout Orientation="Horizontal"  >
+            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                <Button Text="elöző hónap"
+                Clicked="PreviousMonthButton_Clicked"        
+                        />
+            </StackLayout>
+            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                <Button Text="aktuális hónap"
+                 		Clicked="MonthButton_Clicked"
+                        />
+            </StackLayout>
+        </StackLayout>
+
+        <Label Text="Kereset:"
 			   FontSize="18"/>
 		<Label x:Name="earnPreviousMonthLabel"
 			   FontSize="16"/>

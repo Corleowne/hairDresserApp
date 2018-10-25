@@ -18,9 +18,10 @@ namespace hairDresserApp
 		{
 			InitializeComponent();
 			elements = new ObservableCollection<ElementViewModell>();
-			//App.ProductionDatabase.delete();
-	
-			ListData();
+            //App.ProductionDatabase.delete();
+
+            
+            ListData(1);
 		}
 
 
@@ -41,19 +42,25 @@ namespace hairDresserApp
 			else
 			{
 				if (productionEntry.Text == "" || productionEntry.Text == null)
-					productionEntry.Text = "";
+					productionEntry.Text = "0";
 				if (jattEntry.Text == "" || jattEntry.Text == null)
-					jattEntry.Text = "";
+					jattEntry.Text = "0";
 				if (lorealEntry.Text == "" || lorealEntry.Text == null)
-					lorealEntry.Text = "";
+					lorealEntry.Text = "0";
 				if (kerastaseEntry.Text == "" || kerastaseEntry.Text == null)
-					kerastaseEntry.Text = "";
+					kerastaseEntry.Text = "0";
 			}
 
-			Production production = new Production(productionDatePicker.Date.Year,productionDatePicker.Date.Month,
-				productionDatePicker.Date.Day, long.Parse(productionEntry.Text, System.Globalization.NumberStyles.Number),
-				long.Parse(jattEntry.Text, System.Globalization.NumberStyles.Number), long.Parse(lorealEntry.Text, System.Globalization.NumberStyles.Number), long.Parse(kerastaseEntry.Text, System.Globalization.NumberStyles.Number));
-			if (App.ProductionDatabase.GetProduction(production) != null)
+			Production production = new Production(
+                productionDatePicker.Date.Year,
+                productionDatePicker.Date.Month,
+				productionDatePicker.Date.Day,
+                long.Parse(productionEntry.Text, System.Globalization.NumberStyles.Number),
+				long.Parse(jattEntry.Text, System.Globalization.NumberStyles.Number),
+                long.Parse(lorealEntry.Text, System.Globalization.NumberStyles.Number),
+                long.Parse(kerastaseEntry.Text, System.Globalization.NumberStyles.Number));
+
+            if (App.ProductionDatabase.GetProduction(production) != null)
 			{
 				production = App.ProductionDatabase.GetProduction(production);
 				production.money = long.Parse(productionEntry.Text, System.Globalization.NumberStyles.Number);
@@ -64,24 +71,36 @@ namespace hairDresserApp
 			}
 			else App.ProductionDatabase.SaveProduction(production);
 
-			ListData();
-			productionEntry.Text = "";
-			jattEntry.Text = "";
-			lorealEntry.Text = "";
-			kerastaseEntry.Text = "";
+			ListData(1);
+			productionEntry.Text = null;
+		    jattEntry.Text = null;
+			lorealEntry.Text = null;
+			kerastaseEntry.Text = null;
 
 		}
 
-		private void ListData()
+        private void PreviousMonthButton_Clicked(object sender, EventArgs e)
+        {
+            ListData(2);
+        }
+
+        private void MonthButton_Clicked(object sender, EventArgs e)
+        {
+            ListData(1);
+        }
+
+        private void ListData(int button)
 		{
 			elements = null;
 			elements = new ObservableCollection<ElementViewModell>();
 
 			TableQuery<Production> productionInMonth = App.ProductionDatabase.GetProductionsMonth(DateTime.Today.Month);
 			TableQuery<Production> productionPreviousMonth = App.ProductionDatabase.GetProductionsMonth(DateTime.Today.Month - 1);
-			if (productionInMonth != null)
+            
+            if (productionInMonth != null )
 			{
-				foreach (Production p in productionInMonth)
+                if (button.Equals(1)) { 
+                foreach (Production p in productionInMonth)
 				{
 					elements.Add(new ElementViewModell
 					{
@@ -89,7 +108,18 @@ namespace hairDresserApp
 						p.year, p.month, p.day, p.money.ToString("N0"), p.jatt.ToString("N0"),p.lorealMoney.ToString("N0"), p.kerastaseMoney.ToString("N0"))
 					});
 				}
-				listView.ItemsSource = elements;
+                }else
+                {
+                    foreach (Production p in productionPreviousMonth)
+                    {
+                        elements.Add(new ElementViewModell
+                        {
+                            Production = String.Format("Dátum: {0}:{1}:{2}, Termelés: {3}Ft\n jatt: {4}Ft, L'oréal: {5}Ft\n Kérastase: {6}Ft",
+                            p.year, p.month, p.day, p.money.ToString("N0"), p.jatt.ToString("N0"), p.lorealMoney.ToString("N0"), p.kerastaseMoney.ToString("N0"))
+                        });
+                    }
+                }
+                listView.ItemsSource = elements;
 
 				Salary(productionInMonth, productionPreviousMonth);
 			}
@@ -196,5 +226,7 @@ namespace hairDresserApp
 			November = 11,
 			December = 12
 		}
-	}
+
+
+    }
 }
