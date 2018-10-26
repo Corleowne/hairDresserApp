@@ -19,6 +19,7 @@ namespace hairDresserApp
 			InitializeComponent();
 			elements = new ObservableCollection<ElementViewModell>();
             //App.ProductionDatabase.delete();
+           
 
             
             ListData(1);
@@ -27,18 +28,32 @@ namespace hairDresserApp
 
 		private void Button_Clicked(object sender, EventArgs e)
 		{
-			Production prod = App.ProductionDatabase.GetProductionByDate(productionDatePicker.Date);
+            string tmp;
+
+            Production prod = App.ProductionDatabase.GetProductionByDate(productionDatePicker.Date);
 			if (prod != null)
 			{
-				if (productionEntry.Text == ""  || productionEntry.Text == null)
-					productionEntry.Text = prod.money.ToString();
-				if (jattEntry.Text == "" || jattEntry.Text == null)
-					jattEntry.Text = prod.jatt.ToString();
-				if (lorealEntry.Text == "" || lorealEntry.Text == null)
-					lorealEntry.Text = prod.lorealMoney.ToString();
-				if (kerastaseEntry.Text == "" || kerastaseEntry.Text == null)
-					kerastaseEntry.Text = prod.kerastaseMoney.ToString();
-			}
+				if (productionEntry.Text == ""  || productionEntry.Text == null) {
+                    tmp = String.Format("{0}", prod.money);
+                    productionEntry.Text = "0";
+                    productionEntry.Text = "0";
+                }
+                if (jattEntry.Text == "" || jattEntry.Text == null) {
+                    tmp = String.Format("{0}", prod.jatt);
+                    jattEntry.Text = "0";
+                    jattEntry.Text = "12";
+                }
+                if (lorealEntry.Text == "" || lorealEntry.Text == null) { 
+                    tmp = String.Format("{0}", prod.lorealMoney);
+                    lorealEntry.Text = "0";
+                    lorealEntry.Text = "134";
+                }
+                if (kerastaseEntry.Text == "" || kerastaseEntry.Text == null) { 
+                    tmp = String.Format("{0}", prod.kerastaseMoney);
+                    //kerastaseEntry.Text = "0";
+                    kerastaseEntry.Text = "1344";
+                }
+            }
 			else
 			{
 				if (productionEntry.Text == "" || productionEntry.Text == null)

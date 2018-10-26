@@ -6,29 +6,36 @@ namespace hairDresserApp.Models
 	public class FormattedNumberEntry : Entry
 	{
 		private bool _shouldReactToTextChange = true;
+        string oldText ="";
+        long number =0;
+        string newText="";
 
-		protected override void OnPropertyChanged(string propertyName = null)
+
+        protected override void OnPropertyChanged(string propertyName = null)
 		{
-            _shouldReactToTextChange = true;
             if (nameof(this.Text).Equals(propertyName))
 			{
+                Console.WriteLine("{0},{1}",this.Text,propertyName);
 				
 				if (!_shouldReactToTextChange) return;
-				string oldText;
 				_shouldReactToTextChange = false;
 				if(Text != "") 
 				 oldText = this.Text;
 				else  return;
                 if (Text == null) return;
-                long number = long.Parse(oldText, System.Globalization.NumberStyles.Number);
-				string newText = number.ToString("N0");
+                 number = long.Parse(oldText, System.Globalization.NumberStyles.Number);
+				 newText = number.ToString("N0");
               
 				this.Text = newText;
+                _shouldReactToTextChange = true;
 
-				//
-			}
-			base.OnPropertyChanged(propertyName);
+
+                //
+            }
+            base.OnPropertyChanged(propertyName);
 		}
+
+
 
 	}
 }

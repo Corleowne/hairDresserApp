@@ -42,7 +42,7 @@
         <StackLayout Orientation="Horizontal"  >
             <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
                 <Button Text="elöző hónap"
-                Clicked="PreviousMonthButton_Clicked"        
+                Clicked="PreviousMonthButton_Clicked" 
                         />
             </StackLayout>
             <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
