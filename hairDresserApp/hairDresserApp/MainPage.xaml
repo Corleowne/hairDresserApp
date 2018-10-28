@@ -9,17 +9,28 @@
 
 		<models:FormattedNumberEntry x:Name="productionEntry"
 			   Keyboard="Numeric"
-			   Placeholder="Termelés"/>
+			   Placeholder="Termelés"
+			   FontSize="Small"
+			   HeightRequest="35" />
 		<models:FormattedNumberEntry x:Name="jattEntry"
 			   Placeholder="Jatt"
-			   Keyboard="Numeric"/>
+			   Keyboard="Numeric"
+			   FontSize="Small"
+			   HeightRequest="35"/>
 		<models:FormattedNumberEntry x:Name="lorealEntry"
 			   Placeholder="L'Oréal"
-			   Keyboard="Numeric"/>
+			   Keyboard="Numeric"
+			   FontSize="Small"
+			   HeightRequest="35"/>
 		<models:FormattedNumberEntry x:Name="kerastaseEntry"
 			   Placeholder="Kérastase"
-			   Keyboard="Numeric"/>
-		<DatePicker x:Name="productionDatePicker"/>
+			   Keyboard="Numeric"
+			   FontSize="Small"
+			   HeightRequest="35"/>
+		<DatePicker x:Name="productionDatePicker"
+					FontSize="Small"
+					HeightRequest="35"
+					/>
 		<Button
 			Text="add"
 			Clicked="Button_Clicked"

@@ -15,25 +15,36 @@ namespace hairDresserApp.Models
 		{
             if (nameof(this.Text).Equals(propertyName))
 			{
-                Console.WriteLine("{0},{1}",this.Text,propertyName);
-				
+				if (App.test == false)
+					_shouldReactToTextChange = true;
+				else _shouldReactToTextChange = false;
+
 				if (!_shouldReactToTextChange) return;
 				_shouldReactToTextChange = false;
-				if(Text != "") 
+				
+				if (Text != "") 
 				 oldText = this.Text;
 				else  return;
-                if (Text == null) return;
+				if (Text != null) { 
                  number = long.Parse(oldText, System.Globalization.NumberStyles.Number);
 				 newText = number.ToString("N0");
-              
+				}
+				else
+				{
+					newText = string.Empty;
+				}
 				this.Text = newText;
-                _shouldReactToTextChange = true;
+				if (App.test == false)
+					_shouldReactToTextChange = true;
+				else _shouldReactToTextChange = false;
 
 
                 //
             }
             base.OnPropertyChanged(propertyName);
 		}
+
+
 
 
 

@@ -25,6 +25,7 @@ namespace hairDresserApp.Data
 				if (database.Table<Production>().Count() == 0) return null;
 				else return from p in database.Table<Production>()
 							where p.year.Equals(DateTime.Today.Year) && p.month.Equals(month)
+							orderby p.day descending
 							select p;
 			}
 		}

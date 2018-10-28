@@ -18,40 +18,39 @@ namespace hairDresserApp
 		{
 			InitializeComponent();
 			elements = new ObservableCollection<ElementViewModell>();
-            //App.ProductionDatabase.delete();
-           
+			//App.ProductionDatabase.delete();
+			App.test = false;
 
             
             ListData(1);
 		}
 
 
-		private void Button_Clicked(object sender, EventArgs e)
+		private async void Button_Clicked(object sender, EventArgs e)
 		{
-            string tmp;
 
             Production prod = App.ProductionDatabase.GetProductionByDate(productionDatePicker.Date);
 			if (prod != null)
 			{
 				if (productionEntry.Text == ""  || productionEntry.Text == null) {
-                    tmp = String.Format("{0}", prod.money);
-                    productionEntry.Text = "0";
-                    productionEntry.Text = "0";
-                }
+					App.test = true;
+					productionEntry.Text = String.Format("{0}", prod.money);
+					App.test = false;
+				}
                 if (jattEntry.Text == "" || jattEntry.Text == null) {
-                    tmp = String.Format("{0}", prod.jatt);
-                    jattEntry.Text = "0";
-                    jattEntry.Text = "12";
-                }
-                if (lorealEntry.Text == "" || lorealEntry.Text == null) { 
-                    tmp = String.Format("{0}", prod.lorealMoney);
-                    lorealEntry.Text = "0";
-                    lorealEntry.Text = "134";
-                }
+					App.test = true;
+					jattEntry.Text = String.Format("{0}", prod.jatt);
+					App.test = false;
+				}
+                if (lorealEntry.Text == "" || lorealEntry.Text == null) {
+					App.test = true;
+					lorealEntry.Text = String.Format("{0}", prod.lorealMoney);
+					App.test = false;
+				}
                 if (kerastaseEntry.Text == "" || kerastaseEntry.Text == null) { 
-                    tmp = String.Format("{0}", prod.kerastaseMoney);
-                    //kerastaseEntry.Text = "0";
-                    kerastaseEntry.Text = "1344";
+					App.test = true;
+                    kerastaseEntry.Text = String.Format("{0}", prod.kerastaseMoney);
+					App.test = false;
                 }
             }
 			else
@@ -82,6 +81,8 @@ namespace hairDresserApp
 				production.jatt = long.Parse(jattEntry.Text, System.Globalization.NumberStyles.Number);
 				production.lorealMoney = long.Parse(lorealEntry.Text, System.Globalization.NumberStyles.Number);
 				production.kerastaseMoney = long.Parse(kerastaseEntry.Text, System.Globalization.NumberStyles.Number);
+				bool answer = await DisplayAlert("A felvitt tétel már létezik", "Biztos szeretnéd felülírni?", "Igen", "Nem");
+				if (answer == true)
 				App.ProductionDatabase.SaveProduction(production);
 			}
 			else App.ProductionDatabase.SaveProduction(production);
@@ -91,10 +92,12 @@ namespace hairDresserApp
 		    jattEntry.Text = null;
 			lorealEntry.Text = null;
 			kerastaseEntry.Text = null;
+			Console.WriteLine("Jattentry: {0}", jattEntry.Text);
 
 		}
 
-        private void PreviousMonthButton_Clicked(object sender, EventArgs e)
+
+		private void PreviousMonthButton_Clicked(object sender, EventArgs e)
         {
             ListData(2);
         }

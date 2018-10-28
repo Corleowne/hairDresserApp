@@ -8,6 +8,8 @@ namespace hairDresserApp
 	public partial class App : Application
 	{
 		static ProductionDatabaseController productionDatabase;
+		public static bool test { get; set; }
+
 		public App ()
 		{
 			InitializeComponent();
