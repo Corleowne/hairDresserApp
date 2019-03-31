@@ -168,8 +168,8 @@ namespace hairDresserApp
 				kerastase += p.kerastaseMoney;
 			}
 			salary *= 0.27;
-			loreal *= 0.05;
-			kerastase *= 0.1;
+			loreal *= 0.15;
+			kerastase *= 0.15;
 
 			Month month = (Month)DateTime.Today.Month;
 
@@ -221,12 +221,12 @@ namespace hairDresserApp
 		void SetLabel(string prevoiusMonth, string month, double previousMonthSalaray, double salary, double previousMonthJatt, double jatt,
 			double previousMonthLoreal, double loreal, double previousMonthKerastase, double kerastase)
 		{
-			earnPreviousMonthLabel.Text = String.Format("{0}: {1}Ft + {2}Ft + {3} + {4}Ft = {5}Ft",
-				prevoiusMonth ,previousMonthSalaray.ToString("N0"), previousMonthJatt.ToString("N0"),previousMonthLoreal.ToString("N0"), previousMonthKerastase.ToString("N0"),
-				(previousMonthSalaray + previousMonthJatt + previousMonthLoreal + previousMonthKerastase).ToString("N0"));
+			earnPreviousMonthLabel.Text = String.Format("{0}: {1}Ft + {2}Ft + {3}Ft = {4}Ft",
+				prevoiusMonth ,previousMonthSalaray.ToString("N0"),previousMonthLoreal.ToString("N0"), previousMonthKerastase.ToString("N0"),
+				(previousMonthSalaray + previousMonthLoreal + previousMonthKerastase).ToString("N0"));
 
-			earnInMonthLabel.Text = String.Format("{0}: {1}Ft + {2}Ft + {3} + {4}Ft = {5}Ft",
-				month ,salary.ToString("N0"), jatt.ToString("N0"),loreal.ToString("N0"),kerastase.ToString("N0"), (salary + jatt + loreal + kerastase).ToString("N0"));
+			earnInMonthLabel.Text = String.Format("{0}: {1}Ft + {2}Ft + {3}Ft = {4}Ft",
+				month ,salary.ToString("N0"),loreal.ToString("N0"),kerastase.ToString("N0"), (salary + loreal + kerastase).ToString("N0"));
 		}
 		public enum Month
 		{
