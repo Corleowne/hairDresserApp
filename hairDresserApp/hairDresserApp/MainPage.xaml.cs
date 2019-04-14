@@ -170,6 +170,9 @@ namespace hairDresserApp
 			salary *= 0.27;
 			loreal *= 0.15;
 			kerastase *= 0.15;
+            previousMonthSalaray *= 0.27;
+            previousMonthLoreal *= 0.15;
+            previousMonthKerastase *= 0.15;
 
 			Month month = (Month)DateTime.Today.Month;
 
